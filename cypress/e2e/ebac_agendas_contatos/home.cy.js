@@ -7,11 +7,15 @@ describe('Teste para a home', () => {
     })
     
     it('Deve verificar botão adicionar e adicionar um novo contato', () => {
-        cy.get('.adicionar').click()
-        cy.get('input[type="text"]').type('Guilherme')
-        cy.get('input[type="email"]').type('guilherme@ebac.com.br')
-        cy.get('input[type="tel"]').type('11965851869')
-        cy.get('.adicionar').click()
+        cy.get('.contato').then((contato) => {
+            const quantContatos = contato.length
+            cy.get('.adicionar').click()
+            cy.get('input[type="text"]').type('Guilherme')
+            cy.get('input[type="email"]').type('guilherme@ebac.com.br')
+            cy.get('input[type="tel"]').type('11965851869')
+            cy.get('.adicionar').click()
+        cy.get('.contato').should('have.length', quantContatos + 1)
+    })
     })
 
     it('Deve fazer a alteração do primeiro contato', () => {
@@ -23,9 +27,18 @@ describe('Teste para a home', () => {
         cy.get('[type="tel"]').clear()
         cy.get('[type="tel"]').type('11965851869')
         cy.get('.alterar').click()
+
+        cy.get('.contato').should('contain.text', 'sofia')
+        cy.get('.contato').should('contain.text', 'sofia@ebac.com.br')
+        cy.get('.contato').should('contain.text', '11965851869')
     })
 
     it('Deve deletar o primeiro contato', () => {
-        cy.get(':nth-child(2) > .sc-gueYoa > .delete').click()
+        cy.get('.contato').then((contato) => {
+            const quantContatos = contato.length
+            cy.get(':nth-child(2) > .sc-gueYoa > .delete').click()
+            cy.get('.contato').should('have.length', quantContatos - 1)
+        })
+
     })
 })
