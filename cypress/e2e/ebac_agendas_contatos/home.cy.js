@@ -3,6 +3,7 @@
 
 describe('Teste para a home', () => {
     beforeEach(()=> {
+        cy.wait(4000)
         cy.visit('https://agenda-contatos-react.vercel.app')
     })
     
